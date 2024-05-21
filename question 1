@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdbool.h>
+#include<math.h>
+int max(int a, int b){
+    if(a>b)
+    return a;
+    return b;
+}
+int min(int a, int b){
+    if(a<b)
+    return a;
+    return b;
+}
+int  alphabetaminimax(int depth, int nodeindex, bool player,int evals[],int alpha,int beta)
+{
+    if(depth==0){
+        return evals[nodeindex-15];
+    }
+    
+if(player){
+    int value,i,tvalue=-1000;
+    for(i=1;i<3;i++){
+        value = alphabetaminimax(depth-1, 2*nodeindex+i,false, evals, alpha, beta);
+        tvalue=max(value,tvalue);
+         alpha=max(tvalue,alpha);
+         if(alpha>beta)
+    break;
+    }
+    return tvalue;
+    }
+    else{
+         int value,i,tvalue=1000;
+    for(i=1;i<3;i++){
+        value = alphabetaminimax(depth-1, 2*nodeindex+i,true, evals, alpha, beta);
+        tvalue=min(value,tvalue);
+         beta=min(tvalue ,beta);
+         if(alpha>beta)
+    break;
+    }
+    return tvalue;
+    }
+}
+
+
+int main()
+{
+	int evals[] = {3, 5, 2, 9, 12, 5, 7, -6,3,4,-3,9,-8,-3,-100,2};
+	int res = alphabetaminimax(4, 0, true, evals,-1000,1000);
+	printf("The optimal value is :%d\n",res);
+	return 0;
+}
+
+
